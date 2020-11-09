@@ -27,6 +27,10 @@ pipeline {
                     sh 'cp /home/epad/epad-dist-master/epad.yml ./'
                     sh 'cat epad.yml'
                     sh './configure_epad.sh ../epad_lite_dist ./epad.yml'
+                   
+                }
+                dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
+                    sh 'docker-compose up -d'
                 }
                 //sh 'mkdir testFolder'
                 //sh 'cd testFolder'

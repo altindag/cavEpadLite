@@ -36,7 +36,14 @@ pipeline {
                    
                 }
                 dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
-                    sh 'docker-compose up -d'
+                    withEnv(['COMPOSE_HOME=/usr/local/bin']) {
+                        sh '$COMPOSE_HOME/docker-compose up -d'
+                     }
+                   // withEnv(['PATH+DOCKER=/usr/local/bin']) {
+                    //    sh '$MYTOOL_HOME/bin/start'
+                     //   sh 'docker-compose up -d'
+                    //}
+                    
                 }
                 //sh 'mkdir testFolder'
                 //sh 'cd testFolder'

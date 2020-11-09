@@ -20,7 +20,7 @@ pipeline {
                     sh 'ls -l'
                     sh 'unzip  epad-dist-0.4.zip'
                     sh ''
-               // }
+                }
                 dir("${env.WORKSPACE}/testFolder/epad-dist-master/"){
                     sh 'ls -l'
                     sh 'pwd'

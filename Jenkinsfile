@@ -6,6 +6,11 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh 'printenv'
+                echo "using the branch ${env.BRANCH_NAME}"
+                echo "using the commit ${env.GIT_COMMIT}"
+                echo "using local branch ${env.GIT_LOCAL_BRANCH}"
+             
+                
             }
         }
         stage('Test') {

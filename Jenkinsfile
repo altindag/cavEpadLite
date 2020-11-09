@@ -62,13 +62,13 @@ pipeline {
                         }
                   }
 
-                  success {
-                      githubNotify status: "SUCCESSFUL" , description: "building succeed for "
-                  }
+                  //success {
+                  //    githubNotify status: "SUCCESSFUL" , description: "building succeed for "
+                  //}
 
-                  failure {
-                      githubNotify status: "FAILED" , description: "building failed for "
-                  }
+                  //failure {
+                  //    githubNotify status: "FAILED" , description: "building failed for "
+                  // }
                 }
         }
         stage('Deploy') {

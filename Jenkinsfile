@@ -10,7 +10,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh 'node --version'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "workspace : ${env.WORKSPACE}"
                 sh 'cd /home/epad/thick_test_v4_october_26_plugintest/epad_lite_dist'

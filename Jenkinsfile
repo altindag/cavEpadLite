@@ -2,20 +2,10 @@ pipeline {
     agent any
 
     stages {
+
         stage('Build') {
             steps {
-                echo 'Building..'
-                sh 'printenv'
-                echo "using the branch ${env.BRANCH_NAME}"
-                echo "using the commit ${env.GIT_COMMIT}"
-                echo "using local branch ${env.GIT_LOCAL_BRANCH}"
-             
-                
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
+                echo 'Building containers and starting..'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "workspace : ${env.WORKSPACE}"
                 //sh 'cd /home/epad/thick_test_v4_october_26_plugintest/epad_lite_dist'
@@ -62,6 +52,17 @@ pipeline {
                 //sh 'ls -l'
                 //sh 'unzip  epad-dist-0.4.zip'
                 //sh 'ls -l'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                sh 'printenv'
+                echo "using the branch ${env.BRANCH_NAME}"
+                echo "using the commit ${env.GIT_COMMIT}"
+                echo "using local branch ${env.GIT_LOCAL_BRANCH}"
+             
+                
             }
         }
         stage('Deploy') {

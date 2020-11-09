@@ -1,11 +1,26 @@
 pipeline {
-    agent {
-        docker { image 'node:14-alpine' }
-    }
+    agent any
+
     stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
         stage('Test') {
             steps {
+                echo 'Testing..'
                 sh 'node --version'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                echo "workspace : ${env.WORKSPACE}"
+                cd '/home/epad/thick_test_v4_october_26_plugintest/epad_lite_dist'
+                ls -l
+                
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }

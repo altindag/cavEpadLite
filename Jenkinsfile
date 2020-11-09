@@ -40,18 +40,7 @@ pipeline {
                     withEnv(['COMPOSE_HOME=/usr/local/bin']) {
                         sh '$COMPOSE_HOME/docker-compose up -d'
                      }
-                   // withEnv(['PATH+DOCKER=/usr/local/bin']) {
-                    //    sh '$MYTOOL_HOME/bin/start'
-                     //   sh 'docker-compose up -d'
-                    //}
-                    
                 }
-                //sh 'mkdir testFolder'
-                //sh 'cd testFolder'
-                //sh 'wget ftp://epad-public.stanford.edu/epadLite/epad-dist-0.4.zip'
-                //sh 'ls -l'
-                //sh 'unzip  epad-dist-0.4.zip'
-                //sh 'ls -l'
             }
         }
         stage('Test') {
@@ -64,6 +53,23 @@ pipeline {
              
                 
             }
+                post {
+                  always {
+                        dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
+                            withEnv(['COMPOSE_HOME=/usr/local/bin']) {
+                                sh '$COMPOSE_HOME/docker-compose down'
+                             }
+                        }
+                  }
+
+                  success {
+                      githubNotify status: "SUCCESSFUL" , description: "building succeed for "
+                  }
+
+                  failure {
+                      githubNotify status: "FAILED" , description: "building failed for "
+                  }
+                }
         }
         stage('Deploy') {
             steps {

@@ -27,6 +27,17 @@ pipeline {
                     sh 'unzip  epad-dist-0.4.zip'
                     sh ''
                 }
+                dir("${env.WORKSPACE}/testFolder/"){
+                    sh 'mkdir couchdbloc'
+                    sh 'mkdir mariadbloc'
+                    sh 'mkdir pluginData'
+                    sh 'mkdir tmp'
+                    sh 'chmod 777 couchdbloc'
+                    sh 'chmod 777 mariadbloc'
+                    sh 'chmod 777 pluginData'
+                    sh 'chmod 777 tmp'
+                   
+                }
                 dir("${env.WORKSPACE}/testFolder/epad-dist-master/"){
                     sh 'ls -l'
                     sh 'pwd'

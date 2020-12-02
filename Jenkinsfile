@@ -73,7 +73,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Removing workspace folders....'
+                dir("${env.WORKSPACE}/"){
+                        sh 'rm -rf ./*'
+                }
             }
         }
     }

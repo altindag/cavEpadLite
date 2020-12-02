@@ -73,10 +73,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Removing workspace folders....'
-                dir("${env.WORKSPACE}/"){
-                        sh 'sudo rm -rf ./*'
-                }
+                echo 'Finished....'
+                //dir("${env.WORKSPACE}/"){
+                //        sh 'sudo rm -rf ./*'
+                //}
             }
         }
     }

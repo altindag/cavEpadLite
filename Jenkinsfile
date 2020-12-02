@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Removing workspace folders....'
                 dir("${env.WORKSPACE}/"){
-                        sh 'rm -rf ./*'
+                        sh 'sudo rm -rf ./*'
                 }
             }
         }

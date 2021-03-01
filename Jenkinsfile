@@ -73,30 +73,29 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    retry(50) {
-                        sh(returnStdout: true,script: '''#!/bin/bash
-                            res=$(docker ps -a --filter health=healthy | wc -l)
-                            echo $res
-                            if [[ $res > 5 ]];then
-                                return true
-                            fi
-                        '''.stripIndent())
-                          //  sh '''
-                           //     res=$(docker ps -a --filter health=healthy | wc -l)
-                            //    if [[ $res > 5]]; 
-                             //   then
-                              //      return true
-                               // fi
-                           // '''
+                 waitUntil {
+                    script{
+                        output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
+                        if (output.toInteger() > 4){
+                            echo "containers are ready"
+                            return true
+                        }else{
+                            return false
+                        }
                     }
-                }
+                 }
                 echo 'Deploying....'
                    sh 'docker ps -a'
                 echo 'finished....'
                 //dir("${env.WORKSPACE}/"){
                 //        sh 'sudo rm -rf ./*'
                 //}
+            }
+        }
+        stage('Build test container') {
+            agent { docker 'node:lts-alpine' }
+            steps {
+                echo 'building the container'
             }
         }
     }

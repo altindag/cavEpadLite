@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 withEnv(['COMPOSE_HOME=/usr/local/bin']) {
-                   sh '$COMPOSE_HOME/docker-compose ps -a'
+                   sh '$COMPOSE_HOME/docker ps -a'
                  }
                 echo 'finished....'
                 //dir("${env.WORKSPACE}/"){

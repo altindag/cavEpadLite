@@ -93,8 +93,17 @@ pipeline {
             }
         }
         stage('Build test container') {
-            agent { docker 'node:current-alpine3.10' }
+            //agent { docker 'node:current-alpine3.10' }
             steps {
+                dir("${env.WORKSPACE}/testFolder"){
+                    sh 'cp /home/epad/Dockerfile ./'
+                    sh 'ls -l'
+                    sh 'pwd'
+                   
+                }
+                dir("${env.WORKSPACE}/testFolder"){
+                    sh 'docker build -t epadtest:latest .'
+                }
                 echo 'building the container'
             }
         }

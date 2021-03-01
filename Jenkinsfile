@@ -74,7 +74,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-                output = sh(returnStdout: true, script: 'docker ps -a')
+                output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
                 }
                 echo "${output}"
                 echo 'Deploying....'

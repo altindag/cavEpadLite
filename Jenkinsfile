@@ -97,12 +97,6 @@ pipeline {
             steps {
                 dir("${env.WORKSPACE}/testFolder/"){
                     sh 'mkdir newbuild'
-                    sh 'ls -l'
-                    sh 'pwd'
-                    sh 'cp /home/epad/Dockerfile ./'
-                    script{
-                        dockerImage = docker.build("testlite:latest")
-                    }
                 }
                 dir("${env.WORKSPACE}/testFolder/newbuild"){
                     sh 'cp /home/epad/Dockerfile ./'

@@ -80,8 +80,10 @@ pipeline {
                     echo "${output}"
                      if (output.toInteger() > 4)
                         echo "passed"
+                        return true
                      else
                         echo "no container"
+                        return false
                     }
                  }
                 echo 'Deploying....'

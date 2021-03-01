@@ -77,7 +77,7 @@ pipeline {
                     waitUntil {
                         sh(returnStdout: false, script: '''#!/bin/bash
                             res=$(docker ps -a --filter health=healthy | wc -l)
-                            if [[ $res > 5]];then
+                            if [[ $res > 5 ]];then
                                 return true
                             fi
                         '''.stripIndent())

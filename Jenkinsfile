@@ -75,14 +75,19 @@ pipeline {
             steps {
                 timeout(120) {
                     waitUntil {
-                        
-                            sh '''
-                                res=$(docker ps -a --filter health=healthy | wc -l)
-                                if [[ $res > 5]]; 
-                                then
-                                    return true
-                                fi
-                            '''
+                        sh(returnStdout: false, script: '''#!/bin/bash
+                            res=$(docker ps -a --filter health=healthy | wc -l)
+                            if [[ $res > 5]]; then
+                                return true
+                            fi
+                        '''.stripIndent())
+                          //  sh '''
+                           //     res=$(docker ps -a --filter health=healthy | wc -l)
+                            //    if [[ $res > 5]]; 
+                             //   then
+                              //      return true
+                               // fi
+                           // '''
                     }
                 }
                 echo 'Deploying....'

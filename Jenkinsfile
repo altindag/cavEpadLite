@@ -53,14 +53,14 @@ pipeline {
              
                 
             }
-                post {
-                  always {
-                        dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
-                            withEnv(['COMPOSE_HOME=/usr/local/bin']) {
-                                sh '$COMPOSE_HOME/docker-compose down'
-                             }
-                        }
-                  }
+               // post {
+                //  always {
+                 //       dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
+                  //          withEnv(['COMPOSE_HOME=/usr/local/bin']) {
+                   //             sh '$COMPOSE_HOME/docker-compose down'
+                    //         }
+                    //    }
+                 // }
 
                   //success {
                   //    githubNotify status: "SUCCESSFUL" , description: "building succeed for "
@@ -69,7 +69,7 @@ pipeline {
                   //failure {
                   //    githubNotify status: "FAILED" , description: "building failed for "
                   // }
-                }
+               // }
         }
         stage('Deploy') {
             steps {

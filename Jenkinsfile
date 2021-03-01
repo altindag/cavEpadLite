@@ -76,13 +76,10 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                    
-                    echo "${output}"
                         if (output.toInteger() > 4){
-                            echo "passed"
+                            echo "containers are ready"
                             return true
                         }else{
-                            echo "no container"
                             return false
                         }
                     }
@@ -93,6 +90,12 @@ pipeline {
                 //dir("${env.WORKSPACE}/"){
                 //        sh 'sudo rm -rf ./*'
                 //}
+            }
+        }
+        stage('Build test container') {
+            agent { docker 'node:lts-alpine' }
+            steps {
+                echo 'building the container'
             }
         }
     }

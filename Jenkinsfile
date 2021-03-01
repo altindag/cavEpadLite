@@ -80,7 +80,8 @@ pipeline {
                             if [[ $res > 5 ]];then
                                 return true
                             fi
-                        '''.stripIndent())
+                         ''',returnStdout: true).trim()
+                        //'''.stripIndent())
                           //  sh '''
                            //     res=$(docker ps -a --filter health=healthy | wc -l)
                             //    if [[ $res > 5]]; 

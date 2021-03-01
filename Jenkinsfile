@@ -93,7 +93,7 @@ pipeline {
             }
         }
         stage('Build test container') {
-            agent { docker 'current-alpine3.10' }
+            agent { docker 'node:current-alpine3.10' }
             steps {
                 echo 'building the container'
             }

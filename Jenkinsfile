@@ -75,7 +75,7 @@ pipeline {
             steps {
                 timeout(120) {
                     waitUntil {
-                        sh(returnStdout: false, script: '''#!/bin/bash
+                        sh(script: '''#!/bin/bash
                             res=$(docker ps -a --filter health=healthy | wc -l)
                             if [[ $res > 5 ]];then
                                 return true

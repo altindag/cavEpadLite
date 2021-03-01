@@ -93,7 +93,7 @@ pipeline {
             }
         }
         stage('Build test container') {
-            agent { dockerfile true }
+            //agent { dockerfile true }
             steps {
                 dir("${env.WORKSPACE}/testFolder/"){
                     sh 'ls -l'

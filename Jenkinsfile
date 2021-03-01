@@ -78,7 +78,8 @@ pipeline {
                         
                             sh '''
                                 res=$(docker ps -a --filter health=healthy | wc -l)
-                                if [[ $res > 5]]; then
+                                if [[ $res > 5]]; 
+                                then
                                     return true
                                 fi
                             '''

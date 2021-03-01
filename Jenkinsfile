@@ -101,7 +101,7 @@ pipeline {
                     sh 'cp /home/epad/Dockerfile ./'
 
                     script{
-                        dockerImage = docker.build("testlite:latest")
+                        dockerImage = docker.build("testlite:latest", "./Dockerfile")
                     }
                 }
             }

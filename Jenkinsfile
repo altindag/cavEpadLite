@@ -96,6 +96,7 @@ pipeline {
             agent { docker 'node:current-alpine3.10' }
             steps {
                 echo 'building the container'
+                sh 'docker run -d -p 8000:8000 --name epad_test node:current-alpine3.1'
             }
         }
     }

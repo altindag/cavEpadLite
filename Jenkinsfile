@@ -73,15 +73,11 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                
                 timeout(time: 5, unit: 'MINUTES') {
                     retry(50) {
-                        sh(returnStdout: true,script: '''#!/bin/bash
-                            res=$(docker ps -a --filter health=healthy | wc -l)
-                            echo $res
-                            if [[ $res > 5 ]];then
-                                return true
-                            fi
-                        '''.stripIndent())
+                            result = sh 'docker ps -a --filter health=healthy | wc -l'
+                        echo "The current date is ${result}"  
                           //  sh '''
                            //     res=$(docker ps -a --filter health=healthy | wc -l)
                             //    if [[ $res > 5]]; 

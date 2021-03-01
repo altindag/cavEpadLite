@@ -93,9 +93,17 @@ pipeline {
             }
         }
         stage('Build test container') {
-            agent { docker 'node:current-alpine3.10' }
+            agent { dockerfile true }
             steps {
-                sh 'node --version'
+                dir("${env.WORKSPACE}/testFolder/"){
+                    sh 'ls -l'
+                    sh 'pwd'
+                    sh 'cp /home/epad/Dockerfile ./'
+
+                    sh 'ls -l'
+                    sh 'pwd'
+                    sh 'docker build -t testlite:latest .'
+                }
             }
         }
     }

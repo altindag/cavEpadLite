@@ -74,9 +74,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                withEnv(['COMPOSE_HOME=/usr/local/bin']) {
-                   sh '$COMPOSE_HOME/docker ps -a'
-                 }
+                   sh 'docker ps -a'
                 echo 'finished....'
                 //dir("${env.WORKSPACE}/"){
                 //        sh 'sudo rm -rf ./*'

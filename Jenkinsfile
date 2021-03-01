@@ -102,7 +102,7 @@ pipeline {
                    
                 }
                 dir("${env.WORKSPACE}/testFolder"){
-                    sh 'docker build -t epadtest:latest .'
+                    sh 'docker build -t epadtest:latest -f ./Dockerfile'
                 }
                 echo 'building the container'
             }

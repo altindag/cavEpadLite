@@ -74,19 +74,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 
-                timeout(time: 5, unit: 'MINUTES') {
-                    retry(50) {
-                            result = sh 'docker ps -a --filter health=healthy | wc -l'
-                        echo "The current date is ${result}"  
-                          //  sh '''
-                           //     res=$(docker ps -a --filter health=healthy | wc -l)
-                            //    if [[ $res > 5]]; 
-                             //   then
-                              //      return true
-                               // fi
-                           // '''
-                    }
-                }
+                def output = sh returnStdout: true, script: 'docker ps -a '
+                println output
                 echo 'Deploying....'
                    sh 'docker ps -a'
                 echo 'finished....'

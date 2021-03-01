@@ -78,12 +78,13 @@ pipeline {
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
                     
                     echo "${output}"
-                     if (output.toInteger() > 4)
-                        echo "passed"
-                        return true
-                     else
-                        echo "no container"
-                        return false
+                        if (output.toInteger() > 4){
+                            echo "passed"
+                            return true
+                        }else{
+                            echo "no container"
+                            return false
+                        }
                     }
                  }
                 echo 'Deploying....'

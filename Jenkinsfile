@@ -106,6 +106,7 @@ pipeline {
                     script{
                         dockerImage = docker.build("testlite:latest")
                     }
+                   sh 'docker run --name epadlitetestcont --detach testlite:latest'
                 }
             }
         }

@@ -76,13 +76,13 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                    }
+                    
                     echo "${output}"
-                     if (output > 4){
+                     if (output > 4)
                         echo "passed"
-                     }else{
+                     else
                         echo "no container"
-                     }
+                    }
                  }
                 echo 'Deploying....'
                    sh 'docker ps -a'

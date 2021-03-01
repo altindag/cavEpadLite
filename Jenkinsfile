@@ -76,7 +76,7 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                        if (output.toInteger() > 4){
+                        if (output.toInteger() > 0){
                             echo "containers are ready"
                             return true
                         }else{
@@ -93,9 +93,20 @@ pipeline {
             }
         }
         stage('Build test container') {
-            agent { docker 'node:current-alpine3.10' }
+            //agent { dockerfile true }
             steps {
-                echo 'building the container'
+                dir("${env.WORKSPACE}/testFolder/"){
+                    sh 'mkdir newbuild'
+                }
+                dir("${env.WORKSPACE}/testFolder/newbuild"){
+                    sh 'git clone https://github.com/RubinLab/epadjs.git ./'
+                    sh 'cp /home/epad/Dockerfile ./'
+                    sh 'ls -l'
+                    sh 'pwd'
+                    script{
+                        dockerImage = docker.build("testlite:latest")
+                    }
+                }
             }
         }
     }

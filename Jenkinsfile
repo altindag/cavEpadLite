@@ -100,9 +100,9 @@ pipeline {
                     sh 'pwd'
                     sh 'cp /home/epad/Dockerfile ./'
 
-                    sh 'ls -l'
-                    sh 'pwd'
-                    sh 'docker build -t testlite:latest .'
+                    script{
+                        dockerImage = docker.build("testlite:latest")
+                    }
                 }
             }
         }

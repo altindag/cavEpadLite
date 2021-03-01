@@ -74,8 +74,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 
-                def output = sh returnStdout: true, script: 'docker ps -a '
-                println output
+                output = sh(returnStdout: true, script: 'docker ps -a ')
+                echo "${output}"
                 echo 'Deploying....'
                    sh 'docker ps -a'
                 echo 'finished....'

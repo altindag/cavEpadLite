@@ -78,7 +78,7 @@ pipeline {
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
                     
                     echo "${output}"
-                     if (output > 4)
+                     if (output.toInteger() > 4)
                         echo "passed"
                      else
                         echo "no container"

@@ -99,6 +99,7 @@ pipeline {
                     sh 'mkdir newbuild'
                 }
                 dir("${env.WORKSPACE}/testFolder/newbuild"){
+                    sh 'git clone https://github.com/RubinLab/epadjs.git ./'
                     sh 'cp /home/epad/Dockerfile ./'
                     sh 'ls -l'
                     sh 'pwd'

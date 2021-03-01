@@ -73,10 +73,17 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script{
-                output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                }
-                echo "${output}"
+                 waitUntil {
+                    script{
+                        output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
+                    }
+                    echo "${output}"
+                     if (output > 4){
+                        echo "passed"
+                     }else{
+                        echo "no container"
+                     }
+                 }
                 echo 'Deploying....'
                    sh 'docker ps -a'
                 echo 'finished....'

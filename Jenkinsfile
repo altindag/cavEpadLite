@@ -75,6 +75,7 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitUntil {
+                        script{
                         def res = sh(returnStdout: true,script: '''#!/bin/bash
                             res=$(docker ps -a --filter health=healthy | wc -l)
                             echo $res
@@ -83,6 +84,7 @@ pipeline {
                             fi
                         '''.stripIndent())
                         return res 
+                        }
                           //  sh '''
                            //     res=$(docker ps -a --filter health=healthy | wc -l)
                             //    if [[ $res > 5]]; 

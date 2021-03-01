@@ -76,7 +76,7 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                        if (output.toInteger() > 4){
+                        if (output.toInteger() > 0){
                             echo "containers are ready"
                             return true
                         }else{

@@ -73,7 +73,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Finished....'
+                echo 'Deploying....'
+                   sh 'docker ps -a'
+                echo 'finished....'
                 //dir("${env.WORKSPACE}/"){
                 //        sh 'sudo rm -rf ./*'
                 //}

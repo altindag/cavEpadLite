@@ -76,13 +76,13 @@ pipeline {
                 timeout(120) {
                     waitUntil {
                         
-                            sh """
+                            sh "'
                                 res=$(docker ps -a --filter health=healthy | wc -l)
                                 if [[ $res > 5]]; 
                                 then
                                     return true
                                 fi
-                            """
+                            '"
                     }
                 }
                 echo 'Deploying....'

@@ -73,8 +73,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                timeout(120) {
-                    waitUntil {
+                timeout(time: 5, unit: 'MINUTES') {
+                    retry(50) {
                         sh(returnStdout: true,script: '''#!/bin/bash
                             res=$(docker ps -a --filter health=healthy | wc -l)
                             echo $res

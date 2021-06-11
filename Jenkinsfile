@@ -116,7 +116,7 @@ pipeline {
             //agent { dockerfile true }
             steps {
                 dir("${env.WORKSPACE}/"){
-                    sh 'rm -rf testFolder'
+                    sh 'sudo rm -rf testFolder'
                 }
                 sh 'docker stop epadlitetestcont'
                 sh 'docker rm epadlitetestcont'

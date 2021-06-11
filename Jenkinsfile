@@ -112,5 +112,15 @@ pipeline {
                 }
             }
         }
+        stage('clean after test') {
+            //agent { dockerfile true }
+            steps {
+                dir("${env.WORKSPACE}/"){
+                    sh 'rm -rf testFolder'
+                }
+                sh 'docker stop epadlitetestcont'
+                sh 'docker rm epadlitetestcont'
+            }
+        }
     }
 }

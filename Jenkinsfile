@@ -12,10 +12,11 @@ pipeline {
                 //sh 'ls -l'
                 dir("${env.WORKSPACE}/testFolder"){
                     sh "pwd"
-                    sh 'wget ftp://epad-public.stanford.edu/epadLite/epad-dist-0.4.zip'
+                    // sh 'wget ftp://epad-public.stanford.edu/epadLite/epad-dist-0.4.zip'
+                    sh 'git clone https://github.com/RubinLab/epad-dist.git'
                     sh 'ls -l'
-                    sh 'unzip  epad-dist-0.4.zip'
-                    sh ''
+                    // sh 'unzip  epad-dist-0.4.zip'
+                    // sh ''
                 }
                 dir("${env.WORKSPACE}/testFolder/"){
                     sh 'mkdir couchdbloc'
@@ -28,7 +29,8 @@ pipeline {
                     sh 'chmod 777 tmp'
                    
                 }
-                dir("${env.WORKSPACE}/testFolder/epad-dist-master/"){
+                // dir("${env.WORKSPACE}/testFolder/epad-dist-master/"){
+                dir("${env.WORKSPACE}/testFolder/epad-dist/"){
                     sh 'ls -l'
                     sh 'pwd'
                     sh 'cp /home/epad/epad-dist-master/epad.yml ./'

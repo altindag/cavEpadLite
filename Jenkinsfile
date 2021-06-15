@@ -91,7 +91,7 @@ pipeline {
                 echo "using the branch ${env.BRANCH_NAME}"
                 echo "using the commit ${env.GIT_COMMIT}"
                 echo "using local branch ${env.GIT_LOCAL_BRANCH}"
-                sh 'docker exec epadlitetestcont sh -c "cd /app/src && npm test --no-watch"'
+                sh 'docker exec epadlitetestcont sh -c "cd /app/src && npm test --no-watch --watchAll=false"'
 
 
             }

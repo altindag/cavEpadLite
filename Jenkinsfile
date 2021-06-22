@@ -34,7 +34,7 @@ pipeline {
                     sh 'ls -l'
                     sh 'pwd'
                     sh 'cp /home/epad/epad-dist/epad.yml ./'
-                    sh 'sed ':a;N;$!ba;s/branch[^\n]*/branch:cav/3 w epadedited.yml' epad.yml '
+                    sh 'sed \':a;N;$!ba;s/branch[^\n]*/branch:cav/3 w epadedited.yml\' epad.yml '
                     sh 'rm epad.yml'
                     sh 'mv epadedited.yml epad.yml'
                     sh 'cat epad.yml'

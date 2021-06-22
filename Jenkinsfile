@@ -43,8 +43,8 @@ pipeline {
                 }
                 dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
                     withEnv(['COMPOSE_HOME=/usr/local/bin']) {
-                        sh 'docker stop epadlitetestcont'
-                        sh 'docker rm epadlitetestcont'
+                        sh 'docker stop epadlitetestcont || true'
+                        sh 'docker rm epadlitetestcont || true'
                         sh '$COMPOSE_HOME/docker-compose build --no-cache'
                         sh '$COMPOSE_HOME/docker-compose up -d'
                      }

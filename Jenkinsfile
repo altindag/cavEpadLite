@@ -84,7 +84,7 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                        if (output.toInteger() > 0){
+                        if (output.toInteger() === 4){
                             echo "containers are ready"
                             return true
                         }else{
@@ -107,7 +107,8 @@ pipeline {
                     sh 'mkdir newbuild'
                 }
                 dir("${env.WORKSPACE}/testFolder/newbuild"){
-                    sh 'git clone https://github.com/RubinLab/epadjs.git ./'
+                    sh 'docker rmi testlite:latest || true'
+                    sh "git clone -b ${env.BRANCH_NAME} https://github.com/RubinLab/epadjs.git ./"
                     sh 'cp /home/epad/Dockerfile ./'
                     sh 'ls -l'
                     sh 'pwd'

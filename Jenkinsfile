@@ -121,6 +121,7 @@ pipeline {
         }
         stage('clean after test') {
             //agent { dockerfile true }
+            // jenkins test
             steps {
                 dir("${env.WORKSPACE}/"){
                     sh 'sudo rm -rf testFolder'

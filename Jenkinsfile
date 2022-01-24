@@ -33,13 +33,19 @@ pipeline {
                 dir("${env.WORKSPACE}/testFolder/epad-dist/"){
                     sh 'ls -l'
                     sh 'pwd'
-                    sh 'cp /home/epad/epad-dist-master/epad.yml ./'
+                    sh 'cp /home/epad/epad-dist/epad.yml ./'
+                    sh "sed ':a;N;\$!ba;s/branch[^/\\n]*/branch:${env.BRANCH_NAME}/3 w epadedited.yml' epad.yml"
+                    sh 'rm epad.yml'
+                    sh 'mv epadedited.yml epad.yml'
                     sh 'cat epad.yml'
                     sh './configure_epad.sh ../epad_lite_dist ./epad.yml'
                    
                 }
                 dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
                     withEnv(['COMPOSE_HOME=/usr/local/bin']) {
+                        sh 'docker stop epadlitetestcont || true'
+                        sh 'docker rm epadlitetestcont || true'
+                        sh '$COMPOSE_HOME/docker-compose build --no-cache'
                         sh '$COMPOSE_HOME/docker-compose up -d'
                      }
                 }
@@ -78,7 +84,7 @@ pipeline {
                  waitUntil {
                     script{
                         output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                        if (output.toInteger() > 0){
+                        if (output.toInteger() === 4){
                             echo "containers are ready"
                             return true
                         }else{
@@ -101,7 +107,8 @@ pipeline {
                     sh 'mkdir newbuild'
                 }
                 dir("${env.WORKSPACE}/testFolder/newbuild"){
-                    sh 'git clone https://github.com/RubinLab/epadjs.git ./'
+                    sh 'docker rmi testlite:latest || true'
+                    sh "git clone -b ${env.BRANCH_NAME} https://github.com/RubinLab/epadjs.git ./"
                     sh 'cp /home/epad/Dockerfile ./'
                     sh 'ls -l'
                     sh 'pwd'
@@ -114,6 +121,7 @@ pipeline {
         }
         stage('clean after test') {
             //agent { dockerfile true }
+            // jenkins test 1
             steps {
                 dir("${env.WORKSPACE}/"){
                     sh 'sudo rm -rf testFolder'

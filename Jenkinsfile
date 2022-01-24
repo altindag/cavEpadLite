@@ -45,34 +45,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-                sh 'printenv'
-                echo "using the branch ${env.BRANCH_NAME}"
-                echo "using the commit ${env.GIT_COMMIT}"
-                echo "using local branch ${env.GIT_LOCAL_BRANCH}"
-             
-                
-            }
-               // post {
-                //  always {
-                 //       dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
-                  //          withEnv(['COMPOSE_HOME=/usr/local/bin']) {
-                   //             sh '$COMPOSE_HOME/docker-compose down'
-                    //         }
-                    //    }
-                 // }
-
-                  //success {
-                  //    githubNotify status: "SUCCESSFUL" , description: "building succeed for "
-                  //}
-
-                  //failure {
-                  //    githubNotify status: "FAILED" , description: "building failed for "
-                  // }
-               // }
-        }
         stage('Deploy') {
             steps {
                  waitUntil {
@@ -112,6 +84,35 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                sh 'printenv'
+                echo "using the branch ${env.BRANCH_NAME}"
+                echo "using the commit ${env.GIT_COMMIT}"
+                echo "using local branch ${env.GIT_LOCAL_BRANCH}"
+                sh 'docker exec epadlitetestcont sh -c "cd /app && ./node_modules/.bin/react-scripts test --watchAll=false"'
+
+
+            }
+               // post {
+                //  always {
+                 //       dir("${env.WORKSPACE}/testFolder/epad_lite_dist/"){
+                  //          withEnv(['COMPOSE_HOME=/usr/local/bin']) {
+                   //             sh '$COMPOSE_HOME/docker-compose down'
+                    //         }
+                    //    }
+                 // }
+
+                  //success {
+                  //    githubNotify status: "SUCCESSFUL" , description: "building succeed for "
+                  //}
+
+                  //failure {
+                  //    githubNotify status: "FAILED" , description: "building failed for "
+                  // }
+               // }
+      }
         stage('clean after test') {
             //agent { dockerfile true }
             steps {

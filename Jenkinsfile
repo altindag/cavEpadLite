@@ -51,13 +51,55 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('check all containers health status') {
+            steps {
+                 waitUntil {
+                    script{
+                        output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
+                        if (output.toInteger() >= 4){
+                            echo "containers are ready"
+                            return true
+                        }else{
+                            return false
+                        }
+                    }
+                 }
+                echo 'Deploying....'
+                   sh 'docker ps -a'
+                echo 'finished....'
+                //dir("${env.WORKSPACE}/"){
+                //        sh 'sudo rm -rf ./*'
+                //}
+            }
+        }
+        stage('Build test container) {
+            //agent { dockerfile true }
+            steps {
+                dir("${env.WORKSPACE}/testFolder/"){
+                    sh 'mkdir newbuild'
+                }
+                dir("${env.WORKSPACE}/testFolder/newbuild"){
+                    sh 'docker rmi testjs:latest || true'
+                    sh "git clone -b ${env.BRANCH_NAME} https://github.com/RubinLab/epadjs.git ./"
+                    sh "cd epadjs"
+                    sh 'cp /home/epad/Dockerfile ./'
+                    sh 'ls -l'
+                    sh 'pwd'
+                    script{
+                        dockerImage = docker.build("testjs:latest","--no-cache")
+                    }
+                   sh 'docker run --name epadjstestcont --detach testjs:latest'
+                }
+            }
+        }
+        stage('start testing') {
             steps {
                 echo 'Testing..'
                 sh 'printenv'
                 echo "using the branch ${env.BRANCH_NAME}"
                 echo "using the commit ${env.GIT_COMMIT}"
                 echo "using local branch ${env.GIT_LOCAL_BRANCH}"
+                sh 'docker exec epadjstestcont sh -c "cd /app && ./node_modules/.bin/react-scripts test --watchAll=false"'
              
                 
             }
@@ -79,55 +121,14 @@ pipeline {
                   // }
                // }
         }
-        stage('Deploy') {
-            steps {
-                 waitUntil {
-                    script{
-                        output = sh(returnStdout: true, script: 'docker ps -a --filter health=healthy | wc -l')
-                        if (output.toInteger() === 4){
-                            echo "containers are ready"
-                            return true
-                        }else{
-                            return false
-                        }
-                    }
-                 }
-                echo 'Deploying....'
-                   sh 'docker ps -a'
-                echo 'finished....'
-                //dir("${env.WORKSPACE}/"){
-                //        sh 'sudo rm -rf ./*'
-                //}
-            }
-        }
-        stage('Build test container') {
-            //agent { dockerfile true }
-            steps {
-                dir("${env.WORKSPACE}/testFolder/"){
-                    sh 'mkdir newbuild'
-                }
-                dir("${env.WORKSPACE}/testFolder/newbuild"){
-                    sh 'docker rmi testlite:latest || true'
-                    sh "git clone -b ${env.BRANCH_NAME} https://github.com/RubinLab/epadjs.git ./"
-                    sh 'cp /home/epad/Dockerfile ./'
-                    sh 'ls -l'
-                    sh 'pwd'
-                    script{
-                        dockerImage = docker.build("testlite:latest")
-                    }
-                   sh 'docker run --name epadlitetestcont --detach testlite:latest'
-                }
-            }
-        }
         stage('clean after test') {
             //agent { dockerfile true }
-            // jenkins test 1
             steps {
                 dir("${env.WORKSPACE}/"){
                     sh 'sudo rm -rf testFolder'
                 }
-                sh 'docker stop epadlitetestcont'
-                sh 'docker rm epadlitetestcont'
+                sh 'docker stop epadjstestcont || true'
+                sh 'docker rm epadjstestcont || true'
             }
         }
     }
